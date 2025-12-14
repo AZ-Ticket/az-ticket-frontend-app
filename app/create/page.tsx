@@ -5,19 +5,25 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {useRouter} from "next/navigation";
-import {useToast} from "@/hooks/use-toast";
-import {Button} from "@/components/ui/button";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {useToast} from "@/src/hooks/use-toast";
+import {Button} from "@/src/components/ui/button";
+import {
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
+} from "@/src/components/ui/form";
+import {Input} from "@/src/components/ui/input";
+import {Textarea} from "@/src/components/ui/textarea";
+import {
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from "@/src/components/ui/select";
+import {
+    Card, CardContent, CardDescription, CardHeader, CardTitle
+} from "@/src/components/ui/card";
 import {Frown, Loader2, PlusCircle} from "lucide-react";
 import Link from "next/link";
-import {User} from "@/domain/model/User";
-import {appModules} from "@/di/AppModules";
-import {EventTicket} from "@/domain/model/EventTicket";
-import {Event} from "@/domain/model/Event";
+import {User} from "@/src/domain/model/User";
+import {appModules} from "@/src/di/AppModules";
+import {EventTicket} from "@/src/domain/model/EventTicket";
+import {Event} from "@/src/domain/model/Event";
 
 const eventSchema = z.object({
     title: z.string().min(3, {message: "O nome do evento deve ter pelo menos 3 caracteres."}),

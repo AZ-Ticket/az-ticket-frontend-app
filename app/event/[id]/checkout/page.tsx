@@ -1,22 +1,24 @@
 "use client";
 
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { appModules } from '@/di/AppModules';
-import { Event } from '@/domain/model/Event';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import {useParams, useSearchParams, useRouter} from 'next/navigation';
+import {useState, useEffect} from 'react';
+import {appModules} from '@/src/di/AppModules';
+import {Event} from '@/src/domain/model/Event';
+import {Button} from '@/src/components/ui/button';
+import {Input} from '@/src/components/ui/input';
+import {Label} from '@/src/components/ui/label';
+import {
+    Card, CardContent, CardHeader, CardTitle
+} from '@/src/components/ui/card';
+import {Separator} from '@/src/components/ui/separator';
+import {useToast} from '@/src/hooks/use-toast';
+import {Loader2} from 'lucide-react';
 
 export default function CheckoutPage() {
     const params = useParams();
     const searchParams = useSearchParams();
     const router = useRouter();
-    const { toast } = useToast();
+    const {toast} = useToast();
     const id = params.id as string;
 
     const [event, setEvent] = useState<Event | null>(null);
@@ -79,11 +81,11 @@ export default function CheckoutPage() {
 
         setProcessing(true);
         try {
-            const currentUser= await appModules.getCurrentUserUseCase.execute()
+            const currentUser = await appModules.getCurrentUserUseCase.execute()
             if (!currentUser) {
                 return;
             }
-            
+
             await appModules.createOrderUseCase.execute(
                 currentUser.id,
                 event.id,
@@ -98,7 +100,7 @@ export default function CheckoutPage() {
 
             // Redirect to success page or orders list
             // For now, redirect back to event page or a success page
-            router.push(`/event/${id}`); 
+            router.push(`/event/${id}`);
         } catch (error: any) {
             console.error('Checkout error:', error);
             toast({
@@ -112,7 +114,7 @@ export default function CheckoutPage() {
     };
 
     if (loading) {
-        return <div className="flex justify-center p-8"><Loader2 className="animate-spin h-8 w-8" /></div>;
+        return <div className="flex justify-center p-8"><Loader2 className="animate-spin h-8 w-8"/></div>;
     }
 
     if (!event) {
@@ -124,7 +126,7 @@ export default function CheckoutPage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-3xl">
             <h1 className="text-3xl font-bold mb-8">Checkout</h1>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Order Summary */}
                 <Card>
@@ -145,7 +147,7 @@ export default function CheckoutPage() {
                                 );
                             })}
                         </div>
-                        <Separator />
+                        <Separator/>
                         <div className="flex justify-between font-bold text-lg">
                             <span>Total</span>
                             <span>R$ {total.toFixed(2).replace('.', ',')}</span>
@@ -162,39 +164,39 @@ export default function CheckoutPage() {
                         <form onSubmit={handleCheckout} className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="name">Nome Completo</Label>
-                                <Input 
-                                    id="name" 
-                                    required 
+                                <Input
+                                    id="name"
+                                    required
                                     value={formData.name}
                                     onChange={e => setFormData({...formData, name: e.target.value})}
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input 
-                                    id="email" 
-                                    type="email" 
-                                    required 
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    required
                                     value={formData.email}
                                     onChange={e => setFormData({...formData, email: e.target.value})}
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="cpf">CPF</Label>
-                                <Input 
-                                    id="cpf" 
-                                    required 
+                                <Input
+                                    id="cpf"
+                                    required
                                     value={formData.cpf}
                                     onChange={e => setFormData({...formData, cpf: e.target.value})}
                                 />
                             </div>
-                            
-                            <Button 
-                                type="submit" 
-                                className="w-full mt-4" 
+
+                            <Button
+                                type="submit"
+                                className="w-full mt-4"
                                 disabled={processing || items.length === 0}
                             >
-                                {processing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                {processing ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : null}
                                 {processing ? 'Processando...' : 'Finalizar Compra'}
                             </Button>
                         </form>

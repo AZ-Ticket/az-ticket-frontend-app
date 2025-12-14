@@ -1,16 +1,18 @@
 "use client";
 
 import {useState, useEffect} from 'react';
-import {EventCard} from '@/components/event-card';
-import {Button} from '@/components/ui/button';
-import {Card, CardContent, CardHeader, CardTitle, CardDescription} from '@/components/ui/card';
+import {EventCard} from '@/src/components/event-card';
+import {Button} from '@/src/components/ui/button';
+import {
+    Card, CardContent, CardHeader, CardTitle, CardDescription
+} from '@/src/components/ui/card';
 import Link from 'next/link';
 import {CalendarPlus, ListVideo, Loader2, Frown} from 'lucide-react';
 import {useRouter} from 'next/navigation';
-import {useToast} from '@/hooks/use-toast';
-import {User} from "@/domain/model/User";
-import {Event} from "@/domain/model/Event";
-import {appModules} from "@/di/AppModules";
+import {useToast} from '@/src/hooks/use-toast';
+import {User} from "@/src/domain/model/User";
+import {Event} from "@/src/domain/model/Event";
+import {appModules} from "@/src/di/AppModules";
 
 export default function MyEventsPage() {
     const router = useRouter();

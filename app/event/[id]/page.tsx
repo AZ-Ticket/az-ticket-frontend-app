@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 import {useParams, useRouter} from 'next/navigation';
-import type {Event} from '@/domain/model/Event';
-import {Button} from '@/components/ui/button';
+import type {Event} from '@/src/domain/model/Event';
+import {Button} from '@/src/components/ui/button';
 import {Calendar, MapPin} from 'lucide-react';
-import {Badge} from '@/components/ui/badge';
-import {Skeleton} from '@/components/ui/skeleton';
+import {Badge} from '@/src/components/ui/badge';
+import {Skeleton} from '@/src/components/ui/skeleton';
 import {useState, useEffect} from 'react';
-import {appModules} from '@/di/AppModules';
+import {appModules} from '@/src/di/AppModules';
 
 export default function EventDetailPage() {
     const params = useParams();
@@ -44,7 +44,7 @@ export default function EventDetailPage() {
         setQuantities(prev => {
             const current = prev[ticketId] ?? 0;
             const next = Math.max(0, current + delta);
-            return { ...prev, [ticketId]: next };
+            return {...prev, [ticketId]: next};
         });
     };
 
@@ -143,7 +143,8 @@ export default function EventDetailPage() {
                                             key={eventTicket.id}
                                             className="rounded-lg border border-primary bg-muted/30 p-4 flex flex-row justify-between">
                                             <div className="">
-                                                {eventTicket.description && <p className="">{eventTicket.description}</p>}
+                                                {eventTicket.description &&
+                                                    <p className="">{eventTicket.description}</p>}
                                                 <h4 className="font-bold">{eventTicket.price > 0
                                                     ? `R$${Number(eventTicket.price).toFixed(2).replace('.', ',')}`
                                                     : 'Grátis'}</h4>
@@ -180,7 +181,7 @@ export default function EventDetailPage() {
                                             .filter(([_, qty]) => qty > 0)
                                             .map(([ticketId, qty]) => `${ticketId}:${qty}`)
                                             .join(',');
-                                        
+
                                         if (selectedTickets) {
                                             router.push(`/event/${id}/checkout?tickets=${selectedTickets}`);
                                         }
